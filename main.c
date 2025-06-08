@@ -2,39 +2,72 @@
 #include <stdlib.h>
 #include <time.h>
 
-void getwinner(int userChoice , int computerChoice);
+int userChoice();
+int computerChoice();
+void checkWin(int user, int computer);
 
-int main(){
-
-    int userChoice;
-    int computerChoice;
-
-    printf("ROCK & PAPER & SCISSORS\n");
-    printf("SELECT AN OPTION\n");
-    printf("1.ROCK\n");
-    printf("2.PAPER\n");
-    printf("3.SCISSORS\n");
-    printf("Your Choice:");
-    scanf("%d",&userChoice);
-
+int main() {
     srand(time(NULL));
-    computerChoice = (rand() % 3) + 1;
 
-    getwinner(userChoice,computerChoice);
+    printf("TAŞ - KAĞIT - MAKAS OYUNU\n");
+
+    int user = userChoice();
+    int computer = computerChoice();
+
+    const char* secimler[] = {"Taş", "Kağıt", "Makas"};
+    printf("Siz: %s\n", secimler[user]);
+    printf("Bilgisayar: %s\n", secimler[computer]);
+
+    checkWin(user, computer);
+    
+    printf("%d", computer);
 
     return 0;
 }
 
-void getwinner(int userChoice,int computerChoice){
-    printf("Computer Chose %d\n",computerChoice);
+int userChoice() {
+    int choice;
+    do {
+        printf("Seçiminizi yapın (1 = Taş, 2 = Kağıt, 3 = Makas): ");
+        scanf("%d", &choice);
+        if (choice < 0 || choice > 3) {
+            printf("Geçersiz seçim. Lütfen tekrar deneyin.\n");
+        }
+    } while (choice < 0 || choice > 3);
+    return choice;
+}
 
-    if(userChoice == computerChoice){
-        printf("No one wins, its a tie!\n");
-    }
-    else if((userChoice == 1 && computerChoice == 3) || (userChoice == 2 && computerChoice == 1) || (userChoice == 3 && computerChoice == 2)){
-        printf("You got a win!\n");
-    }
-    else{
-        printf("You lost mate.\n");
+int computerChoice() {
+    return rand() % 3 + 1; // 0, 1 veya 2 döndürür
+}
+
+void checkWin(int user, int computer) {
+    switch (user) {
+        case 1: // Taş
+            switch (computer) {
+                case 1: printf("Berabere!\n"); break;
+                case 2: printf("Bilgisayar kazandı!\n"); break;
+                case 3: printf("Kazandınız!\n"); break;
+            }
+            break;
+
+        case 2: // Kağıt
+            switch (computer) {
+                case 1: printf("Kazandınız!\n"); break;
+                case 2: printf("Berabere!\n"); break;
+                case 3: printf("Bilgisayar kazandı!\n"); break;
+            }
+            break;
+
+        case 3: // Makas
+            switch (computer) {
+                case 1: printf("Bilgisayar kazandı!\n"); break;
+                case 2: printf("Kazandınız!\n"); break;
+                case 3: printf("Berabere!\n"); break;
+            }
+            break;
+
+        default:
+            printf("Hatalı kullanıcı seçimi!\n");
     }
 }

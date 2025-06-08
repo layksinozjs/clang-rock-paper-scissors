@@ -38,7 +38,7 @@ int userChoice() {
 }
 
 int computerChoice() {
-    return rand() % 3 + 1; // 0, 1 veya 2 döndürür
+    return rand() % 3 + 1; // 1 , 2 , 3
 }
 
 void checkWin(int user, int computer) {
